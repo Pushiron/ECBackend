@@ -9,9 +9,7 @@ import ResetPassword from './templates/reset-password';
 
 @Injectable()
 export class EmailsService {
-  private readonly transporter:
-    | Transporter<SendmailTransport.SentMessageInfo, SendmailTransport.Options>
-    | Transporter<SMTPTransport.SentMessageInfo, SMTPTransport.Options>;
+  private readonly transporter: Transporter<SMTPTransport.SentMessageInfo, SMTPTransport.Options>;
 
   private readonly from = this.configService.get<string>('EMAIL_FROM');
 
@@ -20,7 +18,7 @@ export class EmailsService {
       configService.get<string>('USE_SENDMAIL', 'false') == 'true';
 
     if (useSendmail) {
-      this.transporter = createTransport({ sendmail: true });
+      this.transporter = createTransport({ sendmail: true }) as any;
     } else {
       const host = configService.getOrThrow<string>('SMTP_HOST');
       const port = +configService.get<string>('SMTP_PORT', '587');
